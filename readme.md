@@ -22,6 +22,15 @@ pre-commit install
 ```bash
 pre-commit run --all-files
 ```
+6. Go to [infra](./infra)
+```bash
+cd infra
+```
+7. Run Docker Compose
+```bash
+docker compose up -d --build
+```
+
 
 # Actions
 To add dependencies to requirements.txt:
