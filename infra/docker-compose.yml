@@ -1,0 +1,6 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:4.0.5-alpine
+    ports:
+      - "5672:5672"
