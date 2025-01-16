@@ -1,6 +1,8 @@
 # Info
 Python3 boilerplate code for Queue Management
 
+Currently, available only RabbitMQ
+
 # Installing
 1. Init venv:
 ```bash
@@ -28,7 +30,7 @@ cd infra
 ```
 7. Run Docker Compose
 ```bash
-docker compose up -d --build
+docker compose -f docker-compose.rabbitmq.yml up -d --build
 ```
 
 
