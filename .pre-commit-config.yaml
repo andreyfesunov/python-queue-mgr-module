@@ -14,9 +14,11 @@ repos:
     hooks:
     -   id: mypy
         args: [--strict, --ignore-missing-imports]
--   repo: https://github.com/christophmeissner/pytest-pre-commit
-    rev: 1.0.0
+-   repo: local
     hooks:
-    -   id: pytest
+    -   id: pytest-check
+        name: pytest-check
+        entry: python -m pytest
+        language: system
         pass_filenames: false
         always_run: true

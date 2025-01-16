@@ -1,3 +1,4 @@
+from collections.abc import Generator
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -6,8 +7,8 @@ from pika import BasicProperties
 from src.rabbitmq import RabbitMQ
 
 
-@pytest.fixture
-def mock_connection():
+@pytest.fixture  # type: ignore[misc]
+def mock_connection() -> Generator[MagicMock]:
     with patch("src.rabbitmq.BlockingConnection") as MockBlockingConnection:
         mock_connection = MagicMock()
         mock_channel = MagicMock()
@@ -22,23 +23,23 @@ def mock_connection():
         yield mock_connection
 
 
-@pytest.fixture
-def rabbitmq(mock_connection) -> RabbitMQ:
+@pytest.fixture  # type: ignore[misc]
+def rabbitmq(mock_connection: MagicMock) -> RabbitMQ:
     return RabbitMQ()
 
 
-def test_initialization(rabbitmq: RabbitMQ, mock_connection) -> None:
+def test_initialization(rabbitmq: RabbitMQ, mock_connection: MagicMock) -> None:
     mock_connection.channel.assert_called_once()
     assert rabbitmq.connection == mock_connection
     assert rabbitmq.channel == mock_connection.channel.return_value
 
 
-def test_close(rabbitmq: RabbitMQ, mock_connection) -> None:
+def test_close(rabbitmq: RabbitMQ, mock_connection: MagicMock) -> None:
     rabbitmq.close()
     mock_connection.close.assert_called_once()
 
 
-def test_publish(rabbitmq: RabbitMQ, mock_connection) -> None:
+def test_publish(rabbitmq: RabbitMQ, mock_connection: MagicMock) -> None:
     rabbitmq.publish("test_queue", "test_message")
 
     mock_connection.channel().queue_declare.assert_called_once_with(
@@ -53,7 +54,7 @@ def test_publish(rabbitmq: RabbitMQ, mock_connection) -> None:
     )
 
 
-def test_consume(rabbitmq: RabbitMQ, mock_connection) -> None:
+def test_consume(rabbitmq: RabbitMQ, mock_connection: MagicMock) -> None:
     mock_callback = MagicMock()
 
     rabbitmq.consume("test_queue", mock_callback)
